@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>计算textview文本行数 | Mr Ye‘s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="YYT,叶永涛的笔记本">
+  
+  <meta name="description" content="&amp;emsp;&amp;emsp;通过 ViewTreeObserver 来计算 TextView 当前内容所占的行数，并替换指定行数的某几个字符为指定的字符。如：若当前 TextView 内容行数超过两行，先得到第一行文本最多能显示的字数，然后把第二行文本中的最后7个字符替换成指定的字符串，具体的代码如下： ViewTreeObserver observer = observer = titleTxt.">
+<meta name="keywords" content="TexView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算textview文本行数">
+<meta property="og:url" content="https://towerye.github.io/2019/02/20/计算textview文本行数/index.html">
+<meta property="og:site_name" content="Mr Ye‘s Blog">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;通过 ViewTreeObserver 来计算 TextView 当前内容所占的行数，并替换指定行数的某几个字符为指定的字符。如：若当前 TextView 内容行数超过两行，先得到第一行文本最多能显示的字数，然后把第二行文本中的最后7个字符替换成指定的字符串，具体的代码如下： ViewTreeObserver observer = observer = titleTxt.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://towerye.github.io/images/cat.jpg">
+<meta property="og:updated_time" content="2020-03-26T03:18:53.199Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算textview文本行数">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;通过 ViewTreeObserver 来计算 TextView 当前内容所占的行数，并替换指定行数的某几个字符为指定的字符。如：若当前 TextView 内容行数超过两行，先得到第一行文本最多能显示的字数，然后把第二行文本中的最后7个字符替换成指定的字符串，具体的代码如下： ViewTreeObserver observer = observer = titleTxt.">
+<meta name="twitter:image" content="https://towerye.github.io/images/cat.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">叶永涛的笔记本</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        叶永涛的笔记本
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        与其抱怨不停，不如铆足劲儿把它做好
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//towerye.github.io/">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/TowerYe">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/1912186957/profile?rightmod=1&wvr=6&mod=personinfo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-计算textview文本行数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      计算textview文本行数
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/AndroidUI/">Android UI</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-02-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><img src="/images/cat.jpg" alt></p>
+<p>&emsp;&emsp;通过 <strong>ViewTreeObserver</strong> 来计算 <strong>TextView</strong> 当前内容所占的行数，并替换指定行数的某几个字符为指定的字符。如：若当前 <strong>TextView</strong> 内容行数超过两行，先得到第一行文本最多能显示的字数，然后把第二行文本中的最后7个字符替换成指定的字符串，具体的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ViewTreeObserver observer = observer = titleTxt.getViewTreeObserver();</span><br><span class="line">observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onGlobalLayout() &#123;</span><br><span class="line">                ViewTreeObserver obs = titleTxt.getViewTreeObserver();</span><br><span class="line">                obs.removeGlobalOnLayoutListener(this);</span><br><span class="line">                if (titleTxt.getLineCount() &gt; 2) &#123; //判断行数大于多少时改变</span><br><span class="line">                    int lineEndIndex = titleTxt.getLayout().getLineEnd(1); //设置第二行打省略号</span><br><span class="line">                    String text = titleTxt.getText().subSequence(0, lineEndIndex - 7) + &quot;... \&quot;，识别为&quot;;</span><br><span class="line">                    titleTxt.setText(text);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年03月26日 11:18</p>
+        <p>原始链接： <a class="post-url" href="/2019/02/20/计算textview文本行数/" title="计算textview文本行数">https://towerye.github.io/2019/02/20/计算textview文本行数/</a></p>
+        <footer>
+            <a href="https://towerye.github.io">
+                <img src="/images/logo.png" alt="Ye YongTao">
+                Ye YongTao
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        (♧◑ω◑)☞谢谢支持☜(◐ω◐♧)
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://towerye.github.io/2019/02/20/计算textview文本行数/&title=《计算textview文本行数》 — Mr Ye‘s Blog&pic=/images/dog.jpeg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://towerye.github.io/2019/02/20/计算textview文本行数/&title=《计算textview文本行数》 — Mr Ye‘s Blog&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://towerye.github.io/2019/02/20/计算textview文本行数/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《计算textview文本行数》 — Mr Ye‘s Blog&url=https://towerye.github.io/2019/02/20/计算textview文本行数/&via=https://towerye.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://towerye.github.io/2019/02/20/计算textview文本行数/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://towerye.github.io/2019/02/20/计算textview文本行数/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/TexView/" class="color3">TexView</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2019/02/22/FlutterEnviroment/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          在Android Studio中搭建Flutter开发环境（MAC OS）
+        
+      </span>
+    </a>
+  
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+    <script src="https://jjeejj.github.io/js/gitment.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                id: decodeURI(window.location.pathname),
+                owner: 'TowerYe',
+                repo: 'TowerYe.github.io',
+                oauth: {
+                    client_id: '640cb5e6e9a9c5797b13',
+                    client_secret: '5f4ad8ec51cc50501c0c308ea0d0c0dd7e72da47',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 Ye YongTao<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://towerye.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android-UI/">Android UI</a><a class="category-link" href="/categories/Flutter/">Flutter</a><a class="category-link" href="/categories/View/">View</a><a class="category-link" href="/categories/设计模式/">设计模式</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/自定义-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/自定义-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

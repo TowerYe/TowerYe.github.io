@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>在Android Studio中搭建Flutter开发环境（MAC OS） | Mr Ye‘s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="YYT,叶永涛的笔记本">
+  
+  <meta name="description" content="&amp;emsp;&amp;emsp;Flutter 是由谷歌在去年推出的一款跨平台开发框架，可以快速的在 Android、IOS 以及 Fuchsia 上构建高质量的原生用户界面，本篇文章记录了如何在 Android Studio 搭建 Flutter 的开发环境，因为我的电脑是 MAC OS，所以只记录了在 MAC OS 中的配置流程。 一、下载 Flutter SDK&amp;emsp;&amp;emsp;Flutte">
+<meta name="keywords" content="Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Android Studio中搭建Flutter开发环境（MAC OS）">
+<meta property="og:url" content="https://towerye.github.io/2019/02/22/FlutterEnviroment/index.html">
+<meta property="og:site_name" content="Mr Ye‘s Blog">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;Flutter 是由谷歌在去年推出的一款跨平台开发框架，可以快速的在 Android、IOS 以及 Fuchsia 上构建高质量的原生用户界面，本篇文章记录了如何在 Android Studio 搭建 Flutter 的开发环境，因为我的电脑是 MAC OS，所以只记录了在 MAC OS 中的配置流程。 一、下载 Flutter SDK&amp;emsp;&amp;emsp;Flutte">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://towerye.github.io/images/posts/flutter_env/flutter.png">
+<meta property="og:image" content="https://towerye.github.io/images/posts/flutter_env/001.jpg">
+<meta property="og:image" content="https://towerye.github.io/images/posts/flutter_env/002.jpg">
+<meta property="og:image" content="https://towerye.github.io/images/posts/flutter_env/003.jpg">
+<meta property="og:image" content="https://towerye.github.io/images/posts/flutter_env/004.jpg">
+<meta property="og:updated_time" content="2020-03-26T03:18:53.198Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Android Studio中搭建Flutter开发环境（MAC OS）">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;Flutter 是由谷歌在去年推出的一款跨平台开发框架，可以快速的在 Android、IOS 以及 Fuchsia 上构建高质量的原生用户界面，本篇文章记录了如何在 Android Studio 搭建 Flutter 的开发环境，因为我的电脑是 MAC OS，所以只记录了在 MAC OS 中的配置流程。 一、下载 Flutter SDK&amp;emsp;&amp;emsp;Flutte">
+<meta name="twitter:image" content="https://towerye.github.io/images/posts/flutter_env/flutter.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">叶永涛的笔记本</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        叶永涛的笔记本
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        与其抱怨不停，不如铆足劲儿把它做好
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//towerye.github.io/">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/TowerYe">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/1912186957/profile?rightmod=1&wvr=6&mod=personinfo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-FlutterEnviroment" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      在Android Studio中搭建Flutter开发环境（MAC OS）
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Flutter/">Flutter</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-02-22
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><img src="/images/posts/flutter_env/flutter.png" alt></p>
+<p>&emsp;&emsp;<a href="https://flutter.io" target="_blank" rel="noopener">Flutter</a> 是由谷歌在去年推出的一款跨平台开发框架，可以快速的在 Android、IOS 以及 Fuchsia 上构建高质量的原生用户界面，本篇文章记录了如何在 Android Studio 搭建 Flutter 的开发环境，因为我的电脑是 MAC OS，所以只记录了在 MAC OS 中的配置流程。</p>
+<h2 id="一、下载-Flutter-SDK"><a href="#一、下载-Flutter-SDK" class="headerlink" title="一、下载 Flutter SDK"></a>一、下载 Flutter SDK</h2><p>&emsp;&emsp;Flutter SDK 的官方下载地址为：<a href="https://flutter.io/docs/development/tools/sdk/archive?tab=macos#macos" target="_blank" rel="noopener">https://flutter.io/docs/development/tools/sdk/archive?tab=macos#macos</a> ，网页里面列举了很多版本的 SDK，我自己是下载的最新的稳定版本。</p>
+<p><img src="/images/posts/flutter_env/001.jpg" alt></p>
+<p>&emsp;&emsp;下载完 SDK 后，将压缩包解压到你指定的目录下，并记住该目录，后面会用到。</p>
+<h2 id="二、更新环境变量"><a href="#二、更新环境变量" class="headerlink" title="二、更新环境变量"></a>二、更新环境变量</h2><p>&emsp;&emsp;解压完 Flutter SDK 后，需要将其添加到电脑的环境变量中，具体操作如下：</p>
+<h3 id="2-1-编辑-bash-profile"><a href="#2-1-编辑-bash-profile" class="headerlink" title="2.1 编辑 .bash_profile"></a>2.1 编辑 .bash_profile</h3><p>1）打开你的终端或者 iTerm2，然后输入 </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ vim <span class="variable">$HOME</span>/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>此时会弹出如下页面：</p>
+<p><img src="/images/posts/flutter_env/002.jpg" alt></p>
+<p>点击键盘上的 “E” 键进入到具体的配置文件中；</p>
+<p>2）进入到配置文件后，还不能进行编辑，将输入法切换成英文模式，然后点击键盘上的 “A” 键，此时可以进入编辑模式，输入如下指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PUB_HOSTED_URL = https://pub.flutter-io.cn</span><br><span class="line"><span class="built_in">export</span> FLUTTER_STORAGE_BASE_URL = https://storage.flutter-io.cn </span><br><span class="line"><span class="built_in">export</span> PATH = PATH_TO_FLUTTER_GIT_DIRECTORY/flutter/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<font color="red">注意：PATH_TO_FLUTTER_GIT_DIRECTORY 则是你解压的 Flutter SDK 所在的路径</font>
+
+<p>&emsp;&emsp;输入完成后，点击键盘上的 “ESC” 键，退出编辑模式，输入法保持英文模式，此时输入 “:”，再输入 “wq” 即可保存退出。</p>
+<p>3）若要验证 Flutter 环境是否配置成功，可以输入如下命令验证：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h2 id="三、安装-Flutter-插件"><a href="#三、安装-Flutter-插件" class="headerlink" title="三、安装 Flutter 插件"></a>三、安装 Flutter 插件</h2><p>&emsp;&emsp;Flutter 的环境配置好以后，就可以进入到 Android Studio 中进行 Flutter 的相关配置了，Flutter 官方文档上要求 Android Studio 的版本应该在 3.0 或以上，所以版本较低的同学需要先升级下 Android Studio。<br>&emsp;&emsp;Android Studio 版本符合条件后，点击插件首选项 <strong>(Preferences -&gt; Plugins -&gt; Browse Repositories)</strong>，然后在输入框中输入 “Flutter”，在搜索结果列表中选择 “<strong>Flutter</strong>”，并点击右侧的 “<strong>Install</strong>” 按钮，待安装完成再重启 Android Studio 即可生效。</p>
+<p><img src="/images/posts/flutter_env/003.jpg" alt></p>
+<p>&emsp;&emsp;此时点击 <strong>（File -&gt; New）</strong> 即可看到可以新建 Flutter 工程了，然后就可以开启你的 Flutter 之旅啦！！！</p>
+<p><img src="/images/posts/flutter_env/004.jpg" alt></p>
+<p>&emsp;&emsp;由于自己也是第一次接触 Flutter，具体怎么开发 Flutter 还不熟悉，可以参考官网的文档，跟着 demo 练练手，附上官网教程：<a href="https://flutterchina.club/get-started/test-drive/" target="_blank" rel="noopener">https://flutterchina.club/get-started/test-drive/</a> 。照着敲完一遍 demo 的最大感受就是，Flutter 的热重载是真的舒服，比 RN 的各种配置各种卡顿，方便流畅很多，但是整个 UI 的布局摒弃了 xml，与 RN 那种 css 也不一样，采用 widget 的形式来构建整个 UI，这又是一个全新的概念，初次接触还不是太习惯，所以还需要慢慢的去琢磨去学习。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年03月26日 11:18</p>
+        <p>原始链接： <a class="post-url" href="/2019/02/22/FlutterEnviroment/" title="在Android Studio中搭建Flutter开发环境（MAC OS）">https://towerye.github.io/2019/02/22/FlutterEnviroment/</a></p>
+        <footer>
+            <a href="https://towerye.github.io">
+                <img src="/images/logo.png" alt="Ye YongTao">
+                Ye YongTao
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        (♧◑ω◑)☞谢谢支持☜(◐ω◐♧)
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://towerye.github.io/2019/02/22/FlutterEnviroment/&title=《在Android Studio中搭建Flutter开发环境（MAC OS）》 — Mr Ye‘s Blog&pic=/images/posts/flutter_env/cover.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://towerye.github.io/2019/02/22/FlutterEnviroment/&title=《在Android Studio中搭建Flutter开发环境（MAC OS）》 — Mr Ye‘s Blog&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://towerye.github.io/2019/02/22/FlutterEnviroment/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《在Android Studio中搭建Flutter开发环境（MAC OS）》 — Mr Ye‘s Blog&url=https://towerye.github.io/2019/02/22/FlutterEnviroment/&via=https://towerye.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://towerye.github.io/2019/02/22/FlutterEnviroment/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://towerye.github.io/2019/02/22/FlutterEnviroment/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Flutter/" class="color3">Flutter</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、下载-Flutter-SDK"><span class="post-toc-text">一、下载 Flutter SDK</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、更新环境变量"><span class="post-toc-text">二、更新环境变量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-编辑-bash-profile"><span class="post-toc-text">2.1 编辑 .bash_profile</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、安装-Flutter-插件"><span class="post-toc-text">三、安装 Flutter 插件</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/25/Singleton/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java 和 Kotlin 中的单例模式
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/02/20/计算textview文本行数/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">计算textview文本行数</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+    <script src="https://jjeejj.github.io/js/gitment.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                id: decodeURI(window.location.pathname),
+                owner: 'TowerYe',
+                repo: 'TowerYe.github.io',
+                oauth: {
+                    client_id: '640cb5e6e9a9c5797b13',
+                    client_secret: '5f4ad8ec51cc50501c0c308ea0d0c0dd7e72da47',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 Ye YongTao<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://towerye.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android-UI/">Android UI</a><a class="category-link" href="/categories/Flutter/">Flutter</a><a class="category-link" href="/categories/View/">View</a><a class="category-link" href="/categories/设计模式/">设计模式</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/自定义-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/自定义-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
