@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>onActivityResult 退位让贤 Activity Results API | Mr Ye‘s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="YYT,叶永涛的笔记本">
+  
+  <meta name="description" content="背景在日常开发中，我们经常会遇到这么一个场景，从 A 页面跳转到 B 页面，在 B 页面一顿操作后，返回到 A 页面，并传回相应的数据。此时，我们毫不犹豫的就会想到 onActivityResult，姿势如下： // A 跳转到 Bval intent = Intent(this, B:class.java)startActivityForResult(intent, REQUEST_CODE)/">
+<meta name="keywords" content="Activity,New Api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="onActivityResult 退位让贤 Activity Results API">
+<meta property="og:url" content="https://towerye.github.io/2020/12/02/ActivityResultsApi/index.html">
+<meta property="og:site_name" content="Mr Ye‘s Blog">
+<meta property="og:description" content="背景在日常开发中，我们经常会遇到这么一个场景，从 A 页面跳转到 B 页面，在 B 页面一顿操作后，返回到 A 页面，并传回相应的数据。此时，我们毫不犹豫的就会想到 onActivityResult，姿势如下： // A 跳转到 Bval intent = Intent(this, B:class.java)startActivityForResult(intent, REQUEST_CODE)/">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-02T07:52:23.673Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="onActivityResult 退位让贤 Activity Results API">
+<meta name="twitter:description" content="背景在日常开发中，我们经常会遇到这么一个场景，从 A 页面跳转到 B 页面，在 B 页面一顿操作后，返回到 A 页面，并传回相应的数据。此时，我们毫不犹豫的就会想到 onActivityResult，姿势如下： // A 跳转到 Bval intent = Intent(this, B:class.java)startActivityForResult(intent, REQUEST_CODE)/">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">叶永涛的笔记本</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        叶永涛的笔记本
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        与其抱怨不停，不如铆足劲儿把它做好
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//towerye.github.io/">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/TowerYe">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/1912186957/profile?rightmod=1&wvr=6&mod=personinfo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-ActivityResultsApi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      onActivityResult 退位让贤 Activity Results API
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Activity/">Activity</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-12-02
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在日常开发中，我们经常会遇到这么一个场景，从 A 页面跳转到 B 页面，在 B 页面一顿操作后，返回到 A 页面，并传回相应的数据。此时，我们毫不犹豫的就会想到 onActivityResult，姿势如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// A 跳转到 B</span></span><br><span class="line"><span class="keyword">val</span> intent = Intent(<span class="keyword">this</span>, B:<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span></span><br><span class="line">startActivityForResult(intent, REQUEST_CODE)</span><br><span class="line"></span><br><span class="line"><span class="comment">// A 在 onActivityResult 回调中接收 B 返回的数据</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityResult</span><span class="params">(requestCode: <span class="type">Int</span>, resultCode: <span class="type">Int</span>, <span class="keyword">data</span>: <span class="type">Intent</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, <span class="keyword">data</span>)</span><br><span class="line">    <span class="keyword">when</span> (requestCode) &#123;</span><br><span class="line">        REQUEST_CODE -&gt; <span class="keyword">if</span> (resultCode == Activity.RESULT_OK) </span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式在安卓里面沿用了很久，除了用于页面跳转，还可以用以申请安卓系统权限，比如：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 申请日历相关权限</span></span><br><span class="line">requestPermissions(arrayOf(READ_CALENDAR, WRITE_CALENDAR), <span class="number">123</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 onRequestPermissionsResult 回调中处理权限</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onRequestPermissionsResult</span><span class="params">(requestCode: <span class="type">Int</span>, permissions: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;, grantResults: <span class="type">IntArray</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults)</span><br><span class="line">    <span class="keyword">if</span> (requestCode == <span class="number">123</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式虽然能够满足大家的需求，但是随着业务的增加，所有的逻辑都耦合在回调里了，与此同时，为了区分是哪个业务的返回结果，我们还得额外定义一堆的 REQUEST_CODE，这往往会造成一个问题，我在 A 页面开发的好好的，突然要跳转到 B 页面去获取相关数据，然后又要把数据传回到 A 页面，这个时候写着写着就会突然懵逼，A 页面定义的 REQUEST_CODE 是多少了？？？</p>
+<blockquote>
+<p>onActivityResult 这种方式存在的问题：</p>
+</blockquote>
+<pre><code>1、回调中耦合严重，不易于后期维护；
+2、REQUEST_CODE 太多，容易搞混；
+</code></pre><h2 id="RxActivityResult-和-RxPermissions"><a href="#RxActivityResult-和-RxPermissions" class="headerlink" title="RxActivityResult 和 RxPermissions"></a>RxActivityResult 和 RxPermissions</h2><h3 id="RxActivityResult"><a href="#RxActivityResult" class="headerlink" title="RxActivityResult"></a>RxActivityResult</h3><p><a href="git@github.com:VictorAlbertos/RxActivityResult.git">RxActivityResult</a>  这个库顾名思义，就是用 Rx 事件流来代替 startActivityForResult 这一套流程，具体用法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">RxActivityResult.on(<span class="keyword">this</span>)</span><br><span class="line">                .startIntent(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, B.class))<span class="comment">//请求result</span></span><br><span class="line">                .map(result -&gt; result.data())<span class="comment">//对result的处理，转换为intent</span></span><br><span class="line">                .subscribe(intent -&gt; showResultIntentData(intent));<span class="comment">//处理数据结果</span></span><br></pre></td></tr></table></figure>
+<p>通过链式的调用，就完成了从 A 页面跳转到 B 页面，并最终在 subscribe 中得到了 B 页面返回的 intent 数据，省去了烦人的 REQUEST_CODE 和 onActivityResult 回调。</p>
+<p>查看其源码，之所以变方便了，是因为 RxActivityResult 这个库帮我们实现了 REQUEST_CODE 和 onActivityResult 的相关操作，所以我们无需在业务层像之前那样去写模板代码。在调用 startIntent 方法时，其内部会跳转到一个叫做 HolderActivity  的页面里，在这个 Activity 中还是通过传统的 startActivityForResult 和 onActivityResult 进行数据的传递，然后再把得到的数据通过 RX 流事件返回到了上层，其代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// RxActivityResult 部分源码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Observable&lt;Result&lt;T&gt;&gt; startIntent(<span class="keyword">final</span> Intent intent) &#123;</span><br><span class="line">            <span class="keyword">return</span> startIntent(intent, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Observable&lt;Result&lt;T&gt;&gt; startIntent(<span class="keyword">final</span> Intent intent, <span class="meta">@Nullable</span> OnPreResult onPreResult) &#123;</span><br><span class="line">            <span class="keyword">return</span> startHolderActivity(<span class="keyword">new</span> Request(intent), onPreResult);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Observable&lt;Result&lt;T&gt;&gt; startHolderActivity(Request request, <span class="meta">@Nullable</span> OnPreResult onPreResult) &#123;</span><br><span class="line">       </span><br><span class="line">       ...</span><br><span class="line">       </span><br><span class="line">       activitiesLifecycle.getOLiveActivity().subscribe(<span class="keyword">new</span> Consumer&lt;Activity&gt;() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Activity activity)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="comment">// 这里就是从当前页面跳转到 HolderActivity 页面中</span></span><br><span class="line">                activity.startActivity(<span class="keyword">new</span> Intent(activity, HolderActivity.class)</span><br><span class="line">                       .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> subject;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// HolderActivity 部分源码</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">   </span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 跳转到 B 页面</span></span><br><span class="line">      startActivityForResult(request.intent(), <span class="number">0</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (ActivityNotFoundException e) &#123;</span><br><span class="line">      <span class="keyword">if</span> (onResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">          onResult.error(e);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">   <span class="keyword">this</span>.resultCode = resultCode;</span><br><span class="line">   <span class="keyword">this</span>.requestCode = requestCode;</span><br><span class="line">   <span class="keyword">this</span>.data = data;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (<span class="keyword">this</span>.onPreResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">this</span>.onPreResult.response(requestCode, resultCode, data)</span><br><span class="line">               .doOnComplete(<span class="keyword">new</span> Action() &#123;</span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                       finish();</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;)</span><br><span class="line">               .subscribe();</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       finish();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RxPermissions"><a href="#RxPermissions" class="headerlink" title="RxPermissions"></a>RxPermissions</h3><p><a href="git@github.com:tbruyelle/RxPermissions.git">RxPermissions</a> 这个库则是用来获取安卓系统权限的，可以不用处理的权限请求的结果回调 onRequestPermissionsResult() 方法，其用法如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">RxPermissions(<span class="keyword">this</span>)</span><br><span class="line">    .request(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)</span><br><span class="line">    .subscribe(&#123;isGranted -&gt;</span><br><span class="line">            <span class="keyword">if</span> (isGranted) &#123;</span><br><span class="line">                <span class="comment">// 权限被授予</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 权限未被授予</span></span><br><span class="line">            &#125;) &#123;</span><br><span class="line">                <span class="comment">// 异常</span></span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用方式也是很简单，和 RxActivityResult 一样，直接在 RX 流事件中得到了权限申请的结果，一步到位，没有多余的 REQUEST_CODE 和回调。之所以这么方便，也是得益于 RxPermissions 库在内部帮我们把 REQUEST_CODE 和 onRequestPermissionsResult 这一套逻辑实现了，其核心思想是，通过一个 Fragment 来进行相关权限的申请，再通过 RX 流事件将结果发送到上层，其代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> RxPermissionsFragment <span class="title">getRxPermissionsFragment</span><span class="params">(@NonNull <span class="keyword">final</span> FragmentManager fragmentManager)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 查询fragment是否已经创建过</span></span><br><span class="line">        RxPermissionsFragment rxPermissionsFragment = findRxPermissionsFragment(fragmentManager);</span><br><span class="line">        <span class="keyword">boolean</span> isNewInstance = rxPermissionsFragment == <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 如果之前未创建fragment，new 一个新的 RxPermissionsFragment</span></span><br><span class="line">        <span class="keyword">if</span> (isNewInstance) &#123;</span><br><span class="line">            rxPermissionsFragment = <span class="keyword">new</span> RxPermissionsFragment();</span><br><span class="line">            fragmentManager</span><br><span class="line">                    .beginTransaction()</span><br><span class="line">                    .add(rxPermissionsFragment, TAG)</span><br><span class="line">                    .commitNow();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rxPermissionsFragment;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>当调用了 RxPermissions(this) 后，就会在当前页面添加一个 RxPermissionsFragment 实例。然后在调用 request 方法时，会通过 ensure 方法去检测待申请的权限：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public Observable&lt;Boolean&gt; request(final String... permissions) &#123;</span><br><span class="line">        return Observable.just(TRIGGER).compose(ensure(permissions));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* Map emitted items from the source observable into &#123;@code true&#125; if permissions in parameters</span><br><span class="line">* are granted, or &#123;@code false&#125; if not.</span><br><span class="line">* &lt;p&gt;</span><br><span class="line">* If one or several permissions have never been requested, invoke the related framework method</span><br><span class="line">* to ask the user if he allows the permissions.</span><br><span class="line">*/</span><br><span class="line">@SuppressWarnings(&quot;WeakerAccess&quot;)</span><br><span class="line">public &lt;T&gt; ObservableTransformer&lt;T, Boolean&gt; ensure(final String... permissions) &#123;</span><br><span class="line">   return new ObservableTransformer&lt;T, Boolean&gt;() &#123;</span><br><span class="line">       @Override</span><br><span class="line">       public ObservableSource&lt;Boolean&gt; apply(Observable&lt;T&gt; o) &#123;</span><br><span class="line">           return request(o, permissions)</span><br><span class="line">                   // Transform Observable&lt;Permission&gt; to Observable&lt;Boolean&gt;</span><br><span class="line">                   .buffer(permissions.length)</span><br><span class="line">                   .flatMap(new Function&lt;List&lt;Permission&gt;, ObservableSource&lt;Boolean&gt;&gt;() &#123;</span><br><span class="line">                       @Override</span><br><span class="line">                       public ObservableSource&lt;Boolean&gt; apply(List&lt;Permission&gt; permissions) &#123;</span><br><span class="line">                            if (permissions.isEmpty()) &#123;</span><br><span class="line">                                    return Observable.empty();</span><br><span class="line">                                &#125;</span><br><span class="line">                                // Return true if all permissions are granted.</span><br><span class="line">                                for (Permission p : permissions) &#123;</span><br><span class="line">                                    if (!p.granted) &#123;</span><br><span class="line">                                        return Observable.just(false);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                                return Observable.just(true);        </span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 ensure 方法中会返回一个 ObservableTransformer 对象，在其 apply() 方法中，又调用了 request() 方法，然后使用buffer 操作符缓存所有的请求结果，并在 flatMap 操作符中将结果转换为 Boolean 类型，如果所有的权限都授权成功则返回 true，否则返回 false。而 request 方法最终会调用到 requestImplementation 方法中，具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Observable&lt;Permission&gt; <span class="title">requestImplementation</span><span class="params">(<span class="keyword">final</span> String... permissions)</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   ...</span><br><span class="line">   </span><br><span class="line">   <span class="comment">// 如果有未申请的权限，去 fragment 中申请</span></span><br><span class="line">   <span class="keyword">if</span> (!unrequestedPermissions.isEmpty()) &#123;</span><br><span class="line">       String[] unrequestedPermissionsArray = unrequestedPermissions.toArray(<span class="keyword">new</span> String[unrequestedPermissions.size()]);</span><br><span class="line">       requestPermissionsFromFragment(unrequestedPermissionsArray);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   ...</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>requestPermissionsFromFragment 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">requestPermissionsFromFragment</span><span class="params">(String[] permissions)</span> </span>&#123;</span><br><span class="line">        mRxPermissionsFragment.get().log(<span class="string">"requestPermissionsFromFragment "</span> + TextUtils.join(<span class="string">", "</span>, permissions));</span><br><span class="line">        mRxPermissionsFragment.get().requestPermissions(permissions);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就会通过 mRxPermissionsFragment 来进行相关权限的申请，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// RxPermissionsFragment 部分源码</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 申请权限</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">requestPermissions</span><span class="params">(@NonNull String[] permissions)</span> </span>&#123;</span><br><span class="line">        requestPermissions(permissions, PERMISSIONS_REQUEST_CODE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * onRequestPermissionsResult 回调获取权限授权结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, @NonNull String[] permissions, @NonNull <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (requestCode != PERMISSIONS_REQUEST_CODE) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span>[] shouldShowRequestPermissionRationale = <span class="keyword">new</span> <span class="keyword">boolean</span>[permissions.length];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; permissions.length; i++) &#123;</span><br><span class="line">       shouldShowRequestPermissionRationale[i] = shouldShowRequestPermissionRationale(permissions[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    onRequestPermissionsResult(permissions, grantResults, shouldShowRequestPermissionRationale);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以看到这里，熟悉的 REQUEST_CODE 和 onRequestPermissionsResult 回调又来了，所以不论是 RxActivityResult 还是 RxPermissions，在最后还是用的安卓原生那一套，只是这些库帮我们处理了对应的逻辑，直接将最终的结果抛回了上层，简化了我们的使用。</p>
+<blockquote>
+<p>通过一个无视图的 Fragment 来进行权限的申请和结果的处理，其实是很有想法和高效的，较之 Activity，<br>Fragment 是安卓更推荐使用的容器，它更轻量，也具有生命周期，也能直接申请权限和页面的跳转，所以才会被用到 RxActivityResult 和 RxPermissions 这两个库中来处理带结果的页面跳转和权限申请，除此之外，在 Glide 的生命周期管理中也有它的身影，ViewModel 中也能看见，足以见得 Fragment 的强大以及技术大牛们牛逼的思想，可以造出这么多厉害的轮子供大家使用。</p>
+</blockquote>
+<h2 id="Activity-Results-API"><a href="#Activity-Results-API" class="headerlink" title="Activity Results API"></a>Activity Results API</h2><p>在 androidx.activity:activity:1.2.0-alpha02 和 androidx.fragment:fragment:1.3.0-alpha02 中，已经废弃了 startActivityForResult、onActivityResult、requestPermissions 和 onRequestPermissionsResult 方法，想必是谷歌的工程师也觉得这一套太过繁琐，因此舍弃掉他们，推出了全新的 <a href="https://developer.android.com/training/basics/intents/result#kotlin" target="_blank" rel="noopener">Activity Results API</a> 来替代。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@deprecated</span> use</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@link</span> #registerForActivityResult(ActivityResultContract, ActivityResultCallback)&#125;</span></span><br><span class="line"><span class="comment">* passing in a &#123;<span class="doctag">@link</span> StartActivityForResult&#125; object for the &#123;<span class="doctag">@link</span> ActivityResultContract&#125;.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startActivityForResult</span><span class="params">(@SuppressLint(<span class="string">"UnknownNullness"</span>)</span> Intent intent,</span></span><br><span class="line"><span class="function">       <span class="keyword">int</span> requestCode) </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.startActivityForResult(intent, requestCode);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@deprecated</span> use</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@link</span> #registerForActivityResult(ActivityResultContract, ActivityResultCallback)&#125;</span></span><br><span class="line"><span class="comment">* passing in a &#123;<span class="doctag">@link</span> StartActivityForResult&#125; object for the &#123;<span class="doctag">@link</span> ActivityResultContract&#125;.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startActivityForResult</span><span class="params">(@SuppressLint(<span class="string">"UnknownNullness"</span>)</span> Intent intent,</span></span><br><span class="line"><span class="function">       <span class="keyword">int</span> requestCode, @Nullable Bundle options) </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.startActivityForResult(intent, requestCode, options);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在安卓开发者平台上介绍到：</p>
+<blockquote>
+<p>位于 ComponentActivity 或 Fragment 中时，Activity Result API 会提供 prepareCall() API，用于注册结果回调。prepareCall() 接受 ActivityResultContract 和 ActivityResultCallback 作为参数，并返回 ActivityResultLauncher，供您用来启动另一个 Activity。</p>
+</blockquote>
+<blockquote>
+<p>ActivityResultContract 定义生成结果所需的输入类型以及结果的输出类型。这些 API 可为拍照和请求权限等基本 intent 操作提供默认协定。您还可以创建自己的自定义协定。</p>
+</blockquote>
+<p>在最新版的</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">implementation <span class="string">'androidx.activity:activity-ktx:1.2.0-beta01'</span></span><br><span class="line">implementation <span class="string">'androidx.fragment:fragment-ktx:1.3.0-beta01'</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">prepareCall() 被命名为 registerForActivityResult()，但官网的中文文档还未更新，英文文档已更新。</span><br><span class="line"></span><br><span class="line">先看下具体用法吧，代码如下：</span><br><span class="line"></span><br><span class="line">```kotlin</span><br><span class="line"><span class="keyword">private</span> val myActivityLauncher =</span><br><span class="line">    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) &#123; activityResult -&gt;</span><br><span class="line">         <span class="comment">// 接收 B 页面返回的数据</span></span><br><span class="line">         <span class="keyword">if</span> (activityResult.resultCode == Activity.RESULT_OK) &#123;</span><br><span class="line">            val result = activityResult.data?.getStringExtra(<span class="string">"result"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun btnClick(view: View) &#123;</span><br><span class="line">    <span class="comment">// 从 A 页面跳转到 B 页面</span></span><br><span class="line">    val intent = Intent(<span class="keyword">this</span>, B::<span class="keyword">class</span>.java).apply &#123;</span><br><span class="line">            putExtra(<span class="string">"data"</span>, <span class="string">"Activity Result Api Auto"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    myActivityLauncher.launch(intent)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// B 页面返回</span></span><br><span class="line">fun btnClick(view: View) &#123;</span><br><span class="line">   val intent = Intent().apply &#123;</span><br><span class="line">       putExtra(<span class="string">"result"</span>, <span class="string">"B 页面 返回的结果"</span>)</span><br><span class="line">   &#125;</span><br><span class="line">   setResult(Activity.RESULT_OK, intent)</span><br><span class="line">   finish()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先就是需要定义一个 ActivityResultLauncher 变量，然后通过 registerForActivityResult() 方法进行赋值，需注意的是该过程必须在当前页面的 START 之前，原因后面再说。</p>
+<p>registerForActivityResult() 方法接受 2 个参数，</p>
+<ul>
+<li>第一个参数就是我们定义的 Contract 协议， ActivityResultContract&lt;I, O&gt;，I：输入类型，即：A 页面传入 B 页面的数据类型，O：输出类型，即：B 页面返回给 A 页面的数据类型；</li>
+<li>第二个参数是一个回调 ActivityResultCallback<o>，其中 O 是 Contract 的输出类型，通过该回调就能得到页面返回的结果；</o></li>
+</ul>
+<p>ActivityResultContracts.StartActivityForResult() 是谷歌为我们封装好的 Contract 协议，除此之外还有以下协议供开发者使用：</p>
+<table>
+<thead>
+<tr>
+<th>协议名称</th>
+<th>协议内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StartActivityForResult</td>
+<td>通用的 Contract，不做任何转换，Intent 作为输入，ActivityResult 作为输出，这也是最常用的一个协定</td>
+</tr>
+<tr>
+<td>StartIntentSenderForResult</td>
+<td>google支付</td>
+</tr>
+<tr>
+<td>RequestMultiplePermissions</td>
+<td>用于请求一组权限</td>
+</tr>
+<tr>
+<td>RequestPermission</td>
+<td>用于请求单个权限</td>
+</tr>
+<tr>
+<td>TakePicturePreview</td>
+<td>调用 MediaStore.ACTION_IMAGE_CAPTURE 拍照，返回值为 Bitmap 图片</td>
+</tr>
+<tr>
+<td>TakePicture</td>
+<td>调用 MediaStore.ACTION_IMAGE_CAPTURE 拍照，并将图片保存到给定的 Uri 地址，返回 true 表示保存成功</td>
+</tr>
+<tr>
+<td>TakeVideo</td>
+<td>调用 MediaStore.ACTION_VIDEO_CAPTURE 拍摄视频，保存到给定的 Uri 地址，返回一张缩略图</td>
+</tr>
+<tr>
+<td>PickContact</td>
+<td>从通讯录 APP 获取联系人</td>
+</tr>
+<tr>
+<td>GetContent</td>
+<td>提示用选择一条内容，返回一个通过 ContentResolver#openInputStream(Uri) 访问原生数据的 Uri 地址（content://形式）。默认情况下，它增加了 Intent#CATEGORY_OPENABLE, 返回可以表示流的内容</td>
+</tr>
+<tr>
+<td>CreateDocument</td>
+<td>提示用户选择一个文档，返回一个 (file:/http:/content:) 开头的 Uri</td>
+</tr>
+<tr>
+<td>OpenMultipleDocuments</td>
+<td>提示用户选择文档（可以选择多个），分别返回它们的 Uri，以 List 的形式</td>
+</tr>
+<tr>
+<td>OpenDocumentTree</td>
+<td>提示用户选择一个目录，并返回用户选择的作为一个 Uri 返回，应用程序可以完全管理返回目录中的文档</td>
+</tr>
+</tbody>
+</table>
+<p>registerForActivityResult() 是直接调用的 ComponentActivity 中的方法，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;I, O&gt; <span class="function">ActivityResultLauncher&lt;I&gt; <span class="title">registerForActivityResult</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> ActivityResultContract&lt;I, O&gt; contract,</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> ActivityResultRegistry registry,</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> ActivityResultCallback&lt;O&gt; callback)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> registry.register(</span><br><span class="line">                <span class="string">"activity_rq#"</span> + mNextLocalRequestCode.getAndIncrement(), <span class="keyword">this</span>, contract, callback);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看到熟悉的 REQUEST_CODE 又来了，只不过不是我们自己定义的，由谷歌工程师帮我们定义了，“activity_rq#” 拼上一个自增长的 AtomicInteger，接下来看下 register 方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;I, O&gt; <span class="function">ActivityResultLauncher&lt;I&gt; <span class="title">register</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> String key,</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> LifecycleOwner lifecycleOwner,</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> ActivityResultContract&lt;I, O&gt; contract,</span></span></span><br><span class="line"><span class="function"><span class="params">            @NonNull <span class="keyword">final</span> ActivityResultCallback&lt;O&gt; callback)</span> </span>&#123;</span><br><span class="line">            </span><br><span class="line">        <span class="comment">// 得到了当前页面的生命周期</span></span><br><span class="line">        Lifecycle lifecycle = lifecycleOwner.getLifecycle();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 这里就解释了前面提到的 ActivityResultLauncher 为什么必须要在页面 START 之前初始化</span></span><br><span class="line">        <span class="keyword">if</span> (lifecycle.getCurrentState().isAtLeast(Lifecycle.State.STARTED)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"LifecycleOwner "</span> + lifecycleOwner + <span class="string">" is "</span></span><br><span class="line">                    + <span class="string">"attempting to register while current state is "</span></span><br><span class="line">                    + lifecycle.getCurrentState() + <span class="string">". LifecycleOwners must call register before "</span></span><br><span class="line">                    + <span class="string">"they are STARTED."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将传入的 key（activity_rq#0） 存入一个 HashMap 中，key 是随机数，value 是（activity_rq#0）</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> requestCode = registerKey(key);</span><br><span class="line">        mKeyToCallback.put(key, <span class="keyword">new</span> CallbackAndContract&lt;&gt;(callback, contract));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从缓存中获取是否已有此次启动的结果</span></span><br><span class="line">        <span class="keyword">final</span> ActivityResult pendingResult = mPendingResults.getParcelable(key);</span><br><span class="line">        LifecycleContainer lifecycleContainer = mKeyToLifecycleContainers.get(key);</span><br><span class="line">        <span class="keyword">if</span> (lifecycleContainer == <span class="keyword">null</span>) &#123;</span><br><span class="line">            lifecycleContainer = <span class="keyword">new</span> LifecycleContainer(lifecycle);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果有结果，且是 start 状态，则直接返回</span></span><br><span class="line">        <span class="keyword">if</span> (pendingResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mPendingResults.remove(key);</span><br><span class="line">            LifecycleEventObserver observer = <span class="keyword">new</span> LifecycleEventObserver() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStateChanged</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">                        @NonNull LifecycleOwner lifecycleOwner,</span></span></span><br><span class="line"><span class="function"><span class="params">                        @NonNull Lifecycle.Event event)</span> </span>&#123;</span><br><span class="line">                    <span class="comment">// 在 START 的时候返回结果</span></span><br><span class="line">                    <span class="keyword">if</span> (Lifecycle.Event.ON_START.equals(event)) &#123;</span><br><span class="line">                        callback.onActivityResult(contract.parseResult(</span><br><span class="line">                                pendingResult.getResultCode(),</span><br><span class="line">                                pendingResult.getData()));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            lifecycleContainer.addObserver(observer);</span><br><span class="line">            mKeyToLifecycleContainers.put(key, lifecycleContainer);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        LifecycleEventObserver observer = <span class="keyword">new</span> LifecycleEventObserver() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStateChanged</span><span class="params">(@NonNull LifecycleOwner lifecycleOwner,</span></span></span><br><span class="line"><span class="function"><span class="params">                    @NonNull Lifecycle.Event event)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// DESTROY 时注销监听，避免内存泄漏</span></span><br><span class="line">                <span class="keyword">if</span> (Lifecycle.Event.ON_DESTROY.equals(event)) &#123;</span><br><span class="line">                    unregister(key);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        lifecycleContainer.addObserver(observer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回一个 ActivityResultLauncher</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ActivityResultLauncher&lt;I&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">launch</span><span class="params">(I input, @Nullable ActivityOptionsCompat options)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 根据定义好的 contract 协议执行相应逻辑</span></span><br><span class="line">                onLaunch(requestCode, contract, input, options);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregister</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                ActivityResultRegistry.<span class="keyword">this</span>.unregister(key);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@NonNull</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> ActivityResultContract&lt;I, ?&gt; getContract() &#123;</span><br><span class="line">                <span class="keyword">return</span> contract;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 myActivityLauncher.launch(intent) 执行时，就会调用上面代码中的 onLaunch() 方法，该方法是 ActivityResultRegistry 抽象类中的一个抽象方法，具体的实现是在 ComponentActivity 类中，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> ActivityResultRegistry mActivityResultRegistry = <span class="keyword">new</span> ActivityResultRegistry() &#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> &lt;I, O&gt; <span class="function"><span class="keyword">void</span> <span class="title">onLaunch</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> requestCode, @NonNull ActivityResultContract&lt;I, O&gt; contract, </span></span></span><br><span class="line"><span class="function"><span class="params">                            I input, @Nullable ActivityOptionsCompat options)</span> </span>&#123;</span><br><span class="line">                            </span><br><span class="line">        ...</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> (ACTION_REQUEST_PERMISSIONS.equals(intent.getAction())) &#123;</span><br><span class="line">            <span class="comment">// 申请权限相关逻辑</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ACTION_INTENT_SENDER_REQUEST.equals(intent.getAction())) &#123;</span><br><span class="line">           IntentSenderRequest request =</span><br><span class="line">            <span class="comment">// Google 支付  </span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// startActivityForResult path</span></span><br><span class="line">           ActivityCompat.startActivityForResult(activity, intent, requestCode, optionsBundle);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最后终于又看到了再熟悉不过的 ActivityCompat.startActivityForResult，那之后的结果获取不用想，肯定又会回到 onActivityResult 这个回调中了，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, @Nullable Intent data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mActivityResultRegistry.dispatchResult(requestCode, resultCode, data)) &#123;</span><br><span class="line">            <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这个方法已经被谷歌舍弃了，但是不同于以往直接返回结果，这里的 onActivityResult 被 ActivityResultRegistry 给拦截了，看下 dispatchResult 的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">dispatchResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, @Nullable Intent data)</span> </span>&#123;</span><br><span class="line">   String key = mRcToKey.get(requestCode);</span><br><span class="line">   <span class="keyword">if</span> (key == <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   doDispatch(key, resultCode, data, mKeyToCallback.get(key));</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就可以看出，如果不是通过 launch 方法启动的，在 mRcToKey 的缓存中就找不到对应的 key，就会按照旧的逻辑，通过 onActivityResult 回调将结果返回，反之，则通过 doDispatch 方法返回。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;O&gt; <span class="function"><span class="keyword">void</span> <span class="title">doDispatch</span><span class="params">(String key, <span class="keyword">int</span> resultCode, @Nullable Intent data,</span></span></span><br><span class="line"><span class="function"><span class="params">       @Nullable CallbackAndContract&lt;O&gt; callbackAndContract)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的 callbackAndContract 即是在 registerForActivityResult 时传进来的那两个入参，如果不为空，则通过他们将结果直接返回</span></span><br><span class="line">    <span class="keyword">if</span> (callbackAndContract != <span class="keyword">null</span> &amp;&amp; callbackAndContract.mCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">           ActivityResultCallback&lt;O&gt; callback = callbackAndContract.mCallback;</span><br><span class="line">           ActivityResultContract&lt;?, O&gt; contract = callbackAndContract.mContract;</span><br><span class="line">           callback.onActivityResult(contract.parseResult(resultCode, data));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 为空则先将此次启动的结果缓存起来 </span></span><br><span class="line">           mPendingResults.putParcelable(key, <span class="keyword">new</span> ActivityResult(resultCode, data));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是 Activity Results Api 的整个流程，不管是 RxActivityResult，还是 Activity Result Api，其最后都还是走到了传统的 startActivityForResult，然后再在 onActivityResult 中把结果拦截掉，以其他的形式回传给上层。</p>
+<p>使用新的 Activity Result Api 获取权限，其方式也是跟页面带参跳转是一样的，这里就不再单独说明了，除了官方封装好的那些 Contrack 协议，我们也可以自定义，方式如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyActivityResultContract</span> : <span class="type">ActivityResultContract</span>&lt;<span class="type">String, String</span>&gt;</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">createIntent</span><span class="params">(context: <span class="type">Context</span>, input: <span class="type">String</span>?)</span></span>: Intent &#123;</span><br><span class="line">        <span class="keyword">return</span> Intent(context, SecondActivity::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>).<span class="title">apply</span> </span>&#123;</span><br><span class="line">            putExtra(<span class="string">"data"</span>, input)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">parseResult</span><span class="params">(resultCode: <span class="type">Int</span>, intent: <span class="type">Intent</span>?)</span></span>: String? &#123;</span><br><span class="line">        <span class="keyword">val</span> <span class="keyword">data</span> = intent?.getStringExtra(<span class="string">"result"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">if</span> (resultCode == Activity.RESULT_OK) <span class="keyword">data</span> <span class="keyword">else</span> <span class="string">"no data"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方式很简单，就是继承 ActivityResultContract 类，传入 A -&gt; B 的参数类型，以及 B -&gt; A 的结果类型，并实现 createIntent 和 parseResult 两个方法即可，最后再在页面中传入自己定义的 ActivityResultContract 即可：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> myActivityLauncher =</span><br><span class="line">            registerForActivityResult(MyActivityResultContract()) &#123; result -&gt;</span><br><span class="line">                <span class="comment">// do something</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">btnClick</span><span class="params">(view: <span class="type">View</span>)</span></span> &#123;</span><br><span class="line">    myActivityLauncher.launch(<span class="string">"Activity Result Api"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不管是 RX 的方式，还是 Activity Results Api 的方式，较之传统的 startActivityForResult 方式都简洁了不少，也减少了代码间的耦合，同时也不用再去定义一堆 REQUEST_CODE，所以还是挺好的，可以去尝试用起来。还有就是利用 Fragment 的相关特性去处理一些权限申请和生命周期管理也是一个很好的思路，可以以此进行拓展，进行更多的应用。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年12月02日 15:52</p>
+        <p>原始链接： <a class="post-url" href="/2020/12/02/ActivityResultsApi/" title="onActivityResult 退位让贤 Activity Results API">https://towerye.github.io/2020/12/02/ActivityResultsApi/</a></p>
+        <footer>
+            <a href="https://towerye.github.io">
+                <img src="/images/logo.png" alt="Ye YongTao">
+                Ye YongTao
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        (♧◑ω◑)☞谢谢支持☜(◐ω◐♧)
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://towerye.github.io/2020/12/02/ActivityResultsApi/&title=《onActivityResult 退位让贤 Activity Results API》 — Mr Ye‘s Blog&pic=/images/posts/activity_result_api/cover.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://towerye.github.io/2020/12/02/ActivityResultsApi/&title=《onActivityResult 退位让贤 Activity Results API》 — Mr Ye‘s Blog&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://towerye.github.io/2020/12/02/ActivityResultsApi/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《onActivityResult 退位让贤 Activity Results API》 — Mr Ye‘s Blog&url=https://towerye.github.io/2020/12/02/ActivityResultsApi/&via=https://towerye.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://towerye.github.io/2020/12/02/ActivityResultsApi/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://towerye.github.io/2020/12/02/ActivityResultsApi/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Activity/" class="color4">Activity</a>
+      
+    <a href="/tags/NewApi/" class="color3">New Api</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RxActivityResult-和-RxPermissions"><span class="post-toc-text">RxActivityResult 和 RxPermissions</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RxActivityResult"><span class="post-toc-text">RxActivityResult</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RxPermissions"><span class="post-toc-text">RxPermissions</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Activity-Results-API"><span class="post-toc-text">Activity Results API</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/25/TvFocusLayer/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">自定义 Android TV 焦点 Layer</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+    <script src="https://jjeejj.github.io/js/gitment.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                id: decodeURI(window.location.pathname),
+                owner: 'TowerYe',
+                repo: 'TowerYe.github.io',
+                oauth: {
+                    client_id: '640cb5e6e9a9c5797b13',
+                    client_secret: '5f4ad8ec51cc50501c0c308ea0d0c0dd7e72da47',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 Ye YongTao<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://towerye.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Activity/">Activity</a><a class="category-link" href="/categories/Android-UI/">Android UI</a><a class="category-link" href="/categories/Flutter/">Flutter</a><a class="category-link" href="/categories/View/">View</a><a class="category-link" href="/categories/设计模式/">设计模式</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/New-Api/" style="font-size: 10px;">New Api</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/自定义-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/New-Api/" style="font-size: 10px;">New Api</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/自定义-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
