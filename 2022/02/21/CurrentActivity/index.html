@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CurrentActivity | Mr Ye‘s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="YYT,叶永涛的笔记本" />
+  
+  <meta name="description" content="背景在接手一个新项目时，都会先把 App 相关的页面都点一点，如果对某个页面感兴趣就会到工程中找到对应的 Activity 类看看具体的实现方式，这个时候就会有个问题，这个页面叫啥了，如果之前的开发者在命名时比较规范，还可以通过名称来判断，那如果不规范，就得花点时间去慢慢找了。 基于这个问题，目前主要有以下方式来解决：  Logcat； adb 命令； 基于 AccessibilityServi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CurrentActivity">
+<meta property="og:url" content="https://towerye.github.io/2022/02/21/CurrentActivity/index.html">
+<meta property="og:site_name" content="Mr Ye‘s Blog">
+<meta property="og:description" content="背景在接手一个新项目时，都会先把 App 相关的页面都点一点，如果对某个页面感兴趣就会到工程中找到对应的 Activity 类看看具体的实现方式，这个时候就会有个问题，这个页面叫啥了，如果之前的开发者在命名时比较规范，还可以通过名称来判断，那如果不规范，就得花点时间去慢慢找了。 基于这个问题，目前主要有以下方式来解决：  Logcat； adb 命令； 基于 AccessibilityServi">
+<meta property="og:locale">
+<meta property="og:image" content="http://pic.616pic.com/bg_w1180/00/05/21/b0YMRtShMP.jpg!/fw/1120">
+<meta property="og:image" content="https://towerye.github.io/media/16454354699053/16454354813205.jpg">
+<meta property="og:image" content="https://towerye.github.io/media/16454354699053/16455829557048.jpg">
+<meta property="article:published_time" content="2022-02-21T08:29:45.000Z">
+<meta property="article:modified_time" content="2022-02-23T08:45:57.920Z">
+<meta property="article:author" content="Ye YongTao">
+<meta property="article:tag" content="Activity">
+<meta property="article:tag" content="Tool">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pic.616pic.com/bg_w1180/00/05/21/b0YMRtShMP.jpg!/fw/1120">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">叶永涛的笔记本</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        叶永涛的笔记本
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        与其抱怨不停，不如铆足劲儿把它做好
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//towerye.github.io/">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/TowerYe">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/1912186957/profile?rightmod=1&wvr=6&mod=personinfo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-CurrentActivity" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      CurrentActivity
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Activity/">Activity</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2022-02-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><img src="http://pic.616pic.com/bg_w1180/00/05/21/b0YMRtShMP.jpg!/fw/1120"></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在接手一个新项目时，都会先把 App 相关的页面都点一点，如果对某个页面感兴趣就会到工程中找到对应的 Activity 类看看具体的实现方式，这个时候就会有个问题，这个页面叫啥了，如果之前的开发者在命名时比较规范，还可以通过名称来判断，那如果不规范，就得花点时间去慢慢找了。</p>
+<p>基于这个问题，目前主要有以下方式来解决：</p>
+<ol>
+<li>Logcat；</li>
+<li>adb 命令；</li>
+<li>基于 AccessibilityService 实现；</li>
+<li>基于 UsageStatsManager 实现；</li>
+</ol>
+<h2 id="一、Logcat"><a href="#一、Logcat" class="headerlink" title="一、Logcat"></a>一、Logcat</h2><p>在每个 Activity 或者 BaseActivity 中添加日志，输出当前 Activity 的类名，然后在跳转页面时，在 Logcat 中查看对应的日志。</p>
+<p>优点：</p>
+<ul>
+<li>实现简单；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>如果没有统一的 BaseActivity，则需要到每个 Activity 中都添加日志，比较繁琐；</li>
+<li>查看日志需要先连接设备再过滤日志，不是特别方便和直观；</li>
+<li>只能查看当前应用的页面；</li>
+</ul>
+<h2 id="二、adb-命令"><a href="#二、adb-命令" class="headerlink" title="二、adb 命令"></a>二、adb 命令</h2><p>在 Terminal 中输入如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">adb -d shell dumpsys activity activities | grep mResumedActivity</span><br></pre></td></tr></table></figure>
+
+<p>然后会输出如下的信息：</p>
+<p><img src="/media/16454354699053/16454354813205.jpg"></p>
+<p>优点：</p>
+<ul>
+<li>操作简单；</li>
+<li>可以查看设备所有应用的页面信息；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>需要连接设备；</li>
+<li>每次切换页面都需重新执行 adb 命令，不方便；</li>
+</ul>
+<h2 id="三、基于-AccessibilityService-实现"><a href="#三、基于-AccessibilityService-实现" class="headerlink" title="三、基于 AccessibilityService 实现"></a>三、基于 AccessibilityService 实现</h2><p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/ui/accessibility/service?hl=zh-cn">AccessibilityService</a> 即无障碍服务，是一种应用，可提供界面增强功能，来协助残障用户或可能暂时无法与设备进行全面互动的用户完成操作。这里就主要介绍下通过 AccessibilityService 来获取当前栈顶 Activity 的名称和包名。</p>
+<p>实现步骤：</p>
+<ol>
+<li>创建一个 Service 继承自 AccessibilityService（WindowStateChangeService），并实现 onServiceConnected() 和 onAccessibilityEvent(event: AccessibilityEvent) 两个方法；</li>
+<li>在 onAccessibilityEvent 方法中监听 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED 事件，获取对应的页面信息；</li>
+<li>在 AndroidManifest 文件中配置无障碍服务；</li>
+</ol>
+<p>核心代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 判断AccessibilityService服务是否已经启动</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">isAccessibilityEnabled</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">   <span class="keyword">val</span> am = <span class="keyword">this</span>.getSystemService(Context.ACCESSIBILITY_SERVICE) <span class="keyword">as</span> AccessibilityManager</span><br><span class="line">   <span class="keyword">return</span> am.isEnabled.also &#123; Log.d(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;AccessibilityService服务是否已经启动：<span class="variable">$it</span>&quot;</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 跳转到设置对应页面，开启应用的无障碍服务</span></span><br><span class="line">startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 获取当前页面的名称和包名</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onAccessibilityEvent</span><span class="params">(event: <span class="type">AccessibilityEvent</span>)</span></span> &#123;</span><br><span class="line">    Log.d(<span class="string">&quot;AccessibilityService&quot;</span>, <span class="string">&quot;onAccessibilityEvent, <span class="subst">$&#123;event.eventType&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) &#123;</span><br><span class="line">        <span class="keyword">if</span> (event.packageName != <span class="literal">null</span> &amp;&amp; event.className != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">val</span> packageName: String = event.packageName.toString()</span><br><span class="line">                <span class="keyword">val</span> clsName: String = event.className.toString()</span><br><span class="line">                Log.d(<span class="string">&quot;AccessibilityService&quot;</span>, <span class="string">&quot;packageName: <span class="variable">$packageName</span>, clsName: <span class="variable">$clsName</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">// AndroidManifest 中无障碍服务配置</span><br><span class="line"><span class="tag">&lt;<span class="name">service</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:name</span>=<span class="string">&quot;.WindowStateChangeService&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:permission</span>=<span class="string">&quot;android.permission.BIND_ACCESSIBILITY_SERVICE&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.accessibilityservice.AccessibilityService&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">      <span class="attr">android:name</span>=<span class="string">&quot;android.accessibilityservice&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">android:resource</span>=<span class="string">&quot;@xml/accessibility&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">// @xml/accessibility</span><br><span class="line"><span class="tag">&lt;<span class="name">accessibility-service</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityEventTypes</span>=<span class="string">&quot;typeWindowStateChanged&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityFeedbackType</span>=<span class="string">&quot;feedbackGeneric&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityFlags</span>=<span class="string">&quot;flagIncludeNotImportantViews&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:canRetrieveWindowContent</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:description</span>=<span class="string">&quot;@string/app_name&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:ignore</span>=<span class="string">&quot;UnusedAttribute&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>优点：</p>
+<ul>
+<li>安装 APP 后，无需连接设备也可实时查看页面信息；</li>
+<li>可以查看设备所有应用的页面信息；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>实现方式复杂；</li>
+<li>每次重启 APP 后，都需要重新开启无障碍服务；</li>
+<li>如果是从最近打开应用里面恢复应用后，此时显示的当前页面名称有错</li>
+</ul>
+<p><img src="/media/16454354699053/16455829557048.jpg"></p>
+<p>从最近打开应用恢复之前的应用时，AccessibilityService 会触发三次，前两次是当前的页面，是正确的，但最后还回调了一次最近打开应用页面，就导致显示错误了。</p>
+<h2 id="四、基于-UsageStatsManager-实现"><a href="#四、基于-UsageStatsManager-实现" class="headerlink" title="四、基于 UsageStatsManager 实现"></a>四、基于 UsageStatsManager 实现</h2><p><a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/usage/UsageStatsManager">UsageStatsManager</a> 是用来统计 APP 使用情况的类，用于获取包含特定时间范围的应用包的使用情况统计信息。本文主要就介绍下如何通过 UsageStatsManager 来获取当前的栈顶 Activity 名称和包名。</p>
+<p>实现步骤：</p>
+<ol>
+<li>申请应用数据权限；</li>
+<li>创建一个 Service（WatchingService），待 service 启动后开启一个计时器，通过 UsageStatsManager 去轮询最近一段的使用情况（UsageEvents）；</li>
+<li>过滤 UsageEvents 的 eventType 等于 UsageEvents.Event.ACTIVITY_RESUMED 的事件信息，获取到当前页面的包名和类名；</li>
+</ol>
+<p>核心代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 跳转到设置对应页面开启应用数据权限</span></span><br><span class="line">startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 检查访问应用数据权限</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">isUsageStatsPermissionEnabled</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">   getSystemService(Context.APP_OPS_SERVICE)?.let &#123;</span><br><span class="line">       <span class="keyword">val</span> appOps = it <span class="keyword">as</span> AppOpsManager</span><br><span class="line">       <span class="keyword">val</span> mode =</span><br><span class="line">           appOps.checkOpNoThrow(<span class="string">&quot;android:get_usage_stats&quot;</span>, myUid(), packageName)</span><br><span class="line">       <span class="keyword">return</span> mode == AppOpsManager.MODE_ALLOWED</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">// AndroidManifest 申请应用数据使用权限</span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:name</span>=<span class="string">&quot;android.permission.PACKAGE_USAGE_STATS&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:ignore</span>=<span class="string">&quot;ProtectedPermissions&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定时任务轮询获取当前页面信息</span></span><br><span class="line"><span class="keyword">internal</span> <span class="keyword">inner</span> <span class="class"><span class="keyword">class</span> <span class="title">RefreshTask</span> : <span class="type">TimerTask</span></span>() &#123;</span><br><span class="line">   <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">run</span><span class="params">()</span></span> &#123;</span><br><span class="line">       <span class="keyword">val</span> name = getCurrentActivityName()</span><br><span class="line">       Log.d(<span class="string">&quot;WatchingService&quot;</span>, <span class="string">&quot;top running app is : <span class="variable">$name</span>&quot;</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">getCurrentActivityName</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">   <span class="keyword">var</span> topActivityName = <span class="string">&quot;&quot;</span></span><br><span class="line">   <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP_MR1) &#123;</span><br><span class="line">       <span class="keyword">val</span> usageStatsManager =</span><br><span class="line">           getSystemService(Context.USAGE_STATS_SERVICE) <span class="keyword">as</span> UsageStatsManager</span><br><span class="line">       <span class="keyword">val</span> now = System.currentTimeMillis()</span><br><span class="line">       <span class="keyword">val</span> events = usageStatsManager.queryEvents(now - <span class="number">600000</span>, now)</span><br><span class="line">       <span class="keyword">while</span> (events.hasNextEvent()) &#123;</span><br><span class="line">           <span class="keyword">val</span> event = UsageEvents.Event()</span><br><span class="line">           events.getNextEvent(event)</span><br><span class="line">           <span class="keyword">if</span> (event.eventType == UsageEvents.Event.ACTIVITY_RESUMED) &#123;</span><br><span class="line">               topActivityName = <span class="string">&quot;<span class="subst">$&#123;event.packageName&#125;</span>\n<span class="subst">$&#123;event.className&#125;</span>&quot;</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="keyword">val</span> forGroundActivity = mActivityManager.getRunningTasks(<span class="number">1</span>)</span><br><span class="line">       topActivityName =</span><br><span class="line">           forGroundActivity[<span class="number">0</span>].topActivity!!.packageName + <span class="string">&quot;\n&quot;</span> + forGroundActivity[<span class="number">0</span>].topActivity!!.className</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> topActivityName</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优点：</p>
+<ul>
+<li>安装 APP 后，无需连接设备也可实时查看页面信息；</li>
+<li>可以查看设备所有应用的页面信息；</li>
+<li>开启应用数据权限后，后续打开无需再重新申请权限；</li>
+<li>从最近使用应用页面重新恢复 APP 能正确显示页面名称和包名，准确性比 AccessibilityService 高；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>实现方式复杂；</li>
+<li>因为是轮询，所以在切换页面时，在更新当前页面的名称时会有一点延迟，实效性没有 AccessibilityService 好；</li>
+</ul>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>这里对四种获取当前页面名称的方法进行个总结，如下表格：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>实现难度</th>
+<th>查看范围</th>
+<th>准确性</th>
+<th>实效性</th>
+<th>是否需要一直连接设备</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Logcat</td>
+<td>易</td>
+<td>当前 APP</td>
+<td>高</td>
+<td>高</td>
+<td>是</td>
+</tr>
+<tr>
+<td>adb 命令</td>
+<td>易</td>
+<td>设备所有 APP</td>
+<td>高</td>
+<td>高</td>
+<td>是</td>
+</tr>
+<tr>
+<td>AccessibilityService</td>
+<td>难</td>
+<td>设备所有 APP</td>
+<td>较高</td>
+<td>高</td>
+<td>安装 APP 的时候需要，后续不需要</td>
+</tr>
+<tr>
+<td>UsageStatsManager</td>
+<td>难</td>
+<td>设备所有 APP</td>
+<td>高</td>
+<td>较高</td>
+<td>安装 APP 的时候需要，后续不需要</td>
+</tr>
+</tbody></table>
+<p>针对 AccessibilityService 和 UsageStatsManager 的完整使用，可以参考 demo 工程：<a target="_blank" rel="noopener" href="https://github.com/TowerYe/CurrentActivity">CurrentActivity</a></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">SSH：@github.com:TowerYe/CurrentActivity.git</span><br><span class="line">HTTPS：https://github.com/TowerYe/CurrentActivity.git</span><br></pre></td></tr></table></figure>
+
+
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2022年02月23日 16:45</p>
+        <p>原始链接： <a class="post-url" href="/2022/02/21/CurrentActivity/" title="CurrentActivity">https://towerye.github.io/2022/02/21/CurrentActivity/</a></p>
+        <footer>
+            <a href="https://towerye.github.io">
+                <img src="/images/logo.png" alt="Ye YongTao">
+                Ye YongTao
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        (♧◑ω◑)☞谢谢支持☜(◐ω◐♧)
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://towerye.github.io/2022/02/21/CurrentActivity/&title=《CurrentActivity》 — Mr Ye‘s Blog&pic=https://img2.gelonghui.com/147e0-d86beea8-9ce2-4e79-9850-d9ad5642581c.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://towerye.github.io/2022/02/21/CurrentActivity/&title=《CurrentActivity》 — Mr Ye‘s Blog&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://towerye.github.io/2022/02/21/CurrentActivity/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CurrentActivity》 — Mr Ye‘s Blog&url=https://towerye.github.io/2022/02/21/CurrentActivity/&via=https://towerye.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://towerye.github.io/2022/02/21/CurrentActivity/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://towerye.github.io/2022/02/21/CurrentActivity/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Activity/" class="color4">Activity</a>
+      
+    <a href="/tags/Tool/" class="color5">Tool</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%83%8C%E6%99%AF"><span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%80%E3%80%81Logcat"><span class="post-toc-text">一、Logcat</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8C%E3%80%81adb-%E5%91%BD%E4%BB%A4"><span class="post-toc-text">二、adb 命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%89%E3%80%81%E5%9F%BA%E4%BA%8E-AccessibilityService-%E5%AE%9E%E7%8E%B0"><span class="post-toc-text">三、基于 AccessibilityService 实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9B%9B%E3%80%81%E5%9F%BA%E4%BA%8E-UsageStatsManager-%E5%AE%9E%E7%8E%B0"><span class="post-toc-text">四、基于 UsageStatsManager 实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93"><span class="post-toc-text">五、总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/12/02/ActivityResultsApi/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">onActivityResult 退位让贤 Activity Results API</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+    <script src="https://billts.site/js/gitment.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                id: decodeURI(window.location.pathname),
+                owner: 'TowerYe',    
+                repo: 'TowerYe.github.io',
+                oauth: {
+                    client_id: '640cb5e6e9a9c5797b13',
+                    client_secret: '5f4ad8ec51cc50501c0c308ea0d0c0dd7e72da47',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2022 Ye YongTao<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://towerye.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Activity/">Activity</a><a class="category-link" href="/categories/Android-UI/">Android UI</a><a class="category-link" href="/categories/Flutter/">Flutter</a><a class="category-link" href="/categories/View/">View</a><a class="category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Activity/" style="font-size: 20px;">Activity</a> <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/New-Api/" style="font-size: 10px;">New Api</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Activity/" style="font-size: 20px;">Activity</a> <a href="/tags/Android-Tv/" style="font-size: 10px;">Android Tv</a> <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/New-Api/" style="font-size: 10px;">New Api</a> <a href="/tags/Singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/TexView/" style="font-size: 10px;">TexView</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89-View/" style="font-size: 10px;">自定义 View</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  
+<script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
